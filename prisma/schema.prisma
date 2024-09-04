@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          Int                  @id @default(autoincrement())
+  username    String               @unique
+  senha       String
+  estabSalvos UsuarioEstabSalvos[]
+
+  @@map("usuario")
+}
+
+model Estabelecimento {
+  id          Int                  @id @default(autoincrement())
+  nome        String
+  cidade      String
+  bairro      String
+  rua         String
+  numero      String
+  descricao   String
+  imagens     String[]
+  tagPrimaria TagPrimaria          @relation(fields: [tagP], references: [nomeTag])
+  tagP        String
+  tagsEstab   TagEstab[]
+  usuarios    UsuarioEstabSalvos[]
+
+  @@map("estabelecimento")
+}
+
+model TagPrimaria {
+  nomeTag          String            @id
+  tagsSecundaria   TagSecundaria[]
+  estabelecimentos Estabelecimento[]
+
+  @@map("tag_primaria")
+}
+
+model TagSecundaria {
+  nomeTag     String      @id
+  tagP        String
+  tagPrimaria TagPrimaria @relation(fields: [tagP], references: [nomeTag])
+  tagsEstab   TagEstab[]
+
+  @@map("tag_secundaria")
+}
+
+model UsuarioEstabSalvos {
+  usuarioId       Int
+  estabId         Int
+  usuario         Usuario         @relation(fields: [usuarioId], references: [id])
+  estabelecimento Estabelecimento @relation(fields: [estabId], references: [id])
+
+  @@id([usuarioId, estabId])
+  @@map("usuario_estab_salvos")
+}
+
+model TagEstab {
+  estabId         Int
+  tagS            String
+  estabelecimento Estabelecimento @relation(fields: [estabId], references: [id])
+  tagSecundaria   TagSecundaria   @relation(fields: [tagS], references: [nomeTag])
+
+  @@id([estabId, tagS])
+  @@map("tag_estab")
+}
