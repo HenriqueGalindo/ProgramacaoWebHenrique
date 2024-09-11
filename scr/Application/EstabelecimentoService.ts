@@ -13,18 +13,17 @@ class EstabelecimentoService {
         return prisma.estabelecimento.findUnique({where: {id}});
     }
 
-    async update(
-        id: number, 
-        data: {
-          nome: string, 
-          cidade: string, 
-          bairro: string, 
-          rua: string, 
-          numero: string, 
-          descricao: string, 
-          imagens: string[]
-        }) {
+    async update(id: number, data: 
+        { nome: string, 
+        cidade: string, 
+        bairro: string, 
+        rua: string, 
+        numero: string, 
+        descricao: string, 
+        imagens: string[] }) {
+
         return prisma.estabelecimento.update({where: { id }, data});
+
     }
 
     async delete (id: number) {
@@ -35,7 +34,7 @@ class EstabelecimentoService {
         const estabelecimento = await prisma.estabelecimento.findUnique({
             where: { id: estabId }, include: { tagPrimaria: true }});
         
-            if (!estabelecimento) {
+        if (!estabelecimento) {
             throw new Error("Estabelecimento não encontrado.");
         }
 
@@ -58,13 +57,7 @@ class EstabelecimentoService {
 
     async buscaEstabelecimentos(cidade: string, tagsSecundarias: string[]) {
         const estabelecimentos = await prisma.estabelecimento.findMany({
-            where: {
-                cidade, 
-            },
-            include: {
-                tagsEstab: true 
-            }
-        });
+            where: {cidade, }, include: { tagsEstab: true }});
 
         return estabelecimentos.filter(estab => 
             tagsSecundarias.every(tag => 
