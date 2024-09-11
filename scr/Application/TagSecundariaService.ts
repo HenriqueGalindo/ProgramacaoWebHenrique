@@ -21,3 +21,4 @@ class TagSecundariaService {
     }
 
 }
+export default new TagSecundariaService();

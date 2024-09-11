@@ -32,6 +32,23 @@ class EstabelecimentoService {
     }
     
     async associaTagS(estabId: number, tagS: string) {
+        const estabelecimento = await prisma.estabelecimento.findUnique({
+            where: { id: estabId }, include: { tagPrimaria: true }});
+        
+            if (!estabelecimento) {
+            throw new Error("Estabelecimento não encontrado.");
+        }
+
+        const tagSecundaria = await prisma.tagSecundaria.findUnique({
+            where: { nomeTag: tagS }, include: { tagPrimaria: true }});
+       
+        if (!tagSecundaria) {
+            throw new Error("Tag secundária não encontrada.");
+        }
+
+        if (estabelecimento.tagPrimaria.nomeTag !== tagSecundaria.tagPrimaria.nomeTag) {
+            throw new Error("A tag secundária e o estabelecimento não compartilham a mesma tag primária.");
+        }
         return TagEstabService.create({estabId, tagS});
     }
 
@@ -57,3 +74,5 @@ class EstabelecimentoService {
     }
 
 }
+
+export default new EstabelecimentoService();
