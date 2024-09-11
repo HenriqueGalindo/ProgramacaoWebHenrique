@@ -16,4 +16,8 @@ class TagSecundariaService {
         return prisma.tagSecundaria.findMany({where: {tagP}});
     }
 
+    async delete (nomeTag: string) {
+        await prisma.tagSecundaria.delete({where: {nomeTag}});
+    }
+
 }

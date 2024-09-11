@@ -26,12 +26,20 @@ class EstabelecimentoService {
         }) {
         return prisma.estabelecimento.update({where: { id }, data});
     }
+
+    async delete (id: number) {
+        await prisma.estabelecimento.delete({where: {id}});
+    }
     
     async associaTagS(estabId: number, tagS: string) {
         return TagEstabService.create({estabId, tagS});
     }
 
-    async buscarEstabelecimentos(cidade: string, tagsSecundarias: string[]) {
+    async deleteAssociacao(estabId: number, tagS: string) {
+        return TagEstabService.delete(estabId, tagS);
+    }
+
+    async buscaEstabelecimentos(cidade: string, tagsSecundarias: string[]) {
         const estabelecimentos = await prisma.estabelecimento.findMany({
             where: {
                 cidade, 

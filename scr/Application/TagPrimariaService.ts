@@ -16,6 +16,10 @@ class TagPrimariaService {
         return prisma.tagPrimaria.findMany();
     }
 
+    async delte (nomeTag: string) {
+        await prisma.tagPrimaria.delete({where: {nomeTag}});
+    }
+
 }
 
 export default new TagPrimariaService();

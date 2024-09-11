@@ -18,8 +18,16 @@ class UsuarioService {
         return prisma.usuario.update({where: {id}, data});
     }
 
+    async delete (id: number) {
+        await prisma.usuario.delete({where: {id}});
+    }
+
     async salvaFavorito (usuarioId: number, estabId: number) {
         return UsuarioEstabSalvosService.create({usuarioId, estabId});
+    }
+
+    async deleteFavorito (usuarioId: number, estabId: number) {
+        await UsuarioEstabSalvosService.delete(usuarioId, estabId);
     }
 
 }
