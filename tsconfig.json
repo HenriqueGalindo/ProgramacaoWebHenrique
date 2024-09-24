@@ -9,7 +9,7 @@
     },
     "include": [
       "./**/*.ts"
-    ],
+, "test/EstabelecimentoRoutes.test.mjs", "test/TagPrimariaRoutes.test.mjs", "test/TagSecundariaRoutes.test.mjs", "test/UsuarioRoutes.test.mjs"    ],
     "exclude": [
       "dist",
       "node_modules",

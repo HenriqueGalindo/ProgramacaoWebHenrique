@@ -3,6 +3,7 @@ import UsuarioService from '../Application/UsuarioService';
 
 const router = express.Router();
 
+
 // Criar um novo usuário
 router.post('/usuarios', async (req: Request, res: Response) => {
     try {
@@ -26,22 +27,6 @@ router.get('/usuarios/:id', async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Erro ao obter usuário:", error);
         res.status(500).json({ error: "Erro ao obter usuário." });
-    }
-});
-
-// Atualizar a senha de um usuário
-router.patch('/usuarios/:id/senha', async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { senha } = req.body;
-    try {
-        const usuario = await UsuarioService.updateSenha(Number(id), { senha });
-        if (!usuario) {
-            return res.status(404).json({ error: "Usuário não encontrado." });
-        }
-        res.status(200).json(usuario);
-    } catch (error) {
-        console.error("Erro ao atualizar senha:", error);
-        res.status(500).json({ error: "Erro ao atualizar senha." });
     }
 });
 

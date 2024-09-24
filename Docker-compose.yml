@@ -1,20 +1,35 @@
 version: '3'
 
-
 services:
- db:
-   image: postgres
-   container_name: databaseaulaPrisma
-   restart: always
-   volumes:
-    - pgdata:/var/lib/postgresql/data
-   environment:
-     POSTGRES_PASSWORD: postgresqlglauber
-   ports:
-     - 5432:5432
-   logging:
-     driver: json-file
-     options:
-       max-size: 100m
+  db:
+    image: postgres
+    container_name: databaseaulaPrisma
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: henrique17
+    ports:
+      - 5432:5432
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+
+  app:
+    image: node:16   # Use uma imagem Node.js do Docker Hub
+    container_name: ondetem
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    working_dir: /app   # Define o diretório de trabalho dentro do container
+    environment:
+      DATABASE_URL: postgres://postgres:henrique17@db:5432/postgres
+    volumes:
+      - .:/app   # Mapeia o código para dentro do container
+    command: npm start   # Comando para iniciar a aplicação
+
 volumes:
- pgdata:
+  pgdata:

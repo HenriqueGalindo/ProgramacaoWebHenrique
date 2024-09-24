@@ -15,7 +15,7 @@ datasource db {
 
 model Usuario {
   id          Int                  @id @default(autoincrement())
-  username    String               @unique
+  username    String               
   senha       String
   estabSalvos UsuarioEstabSalvos[]
 

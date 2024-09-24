@@ -1,0 +1,583 @@
+openapi: 3.0.0
+info:
+  title: OndeTem
+  version: 1.0.0
+  description: API para encontrar estabelecimentos de prestação de serviço
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+paths:
+  /ondetem/usuarios:
+    post:
+      summary: Cria um novo usuário
+      tags: 
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                senha:
+                  type: string
+      responses:
+        '201':
+          description: Usuário criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  senha:
+                    type: string
+        '500':
+          description: Erro ao criar usuário.
+
+  /ondetem/usuarios/{id}:
+    get:
+      summary: Obtém um usuário por ID
+      tags:
+        - Usuários
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuário encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  senha:
+                    type: string
+        '404':
+          description: Usuário não encontrado.
+        '500':
+          description: Erro ao obter usuário.
+
+    delete:
+      summary: Deleta um usuário por ID
+      tags:
+        - Usuários
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuário deletado com sucesso.
+        '404':
+          description: Usuário não encontrado.
+        '500':
+          description: Erro ao deletar usuário.
+
+  /ondetem/usuarios/{usuarioId}/favoritos/{estabId}:
+    post:
+      summary: Adiciona um estabelecimento aos favoritos de um usuário
+      tags:
+        - Usuários
+      parameters:
+        - name: usuarioId
+          in: path
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+        - name: estabId
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Estabelecimento adicionado aos favoritos com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  usuarioId:
+                    type: integer
+                  estabId:
+                    type: integer
+        '404':
+          description: Usuário ou estabelecimento não encontrado.
+        '500':
+          description: Erro ao adicionar favorito.
+
+    delete:
+      summary: Remove um estabelecimento dos favoritos de um usuário
+      tags:
+        - Usuários
+      parameters:
+        - name: usuarioId
+          in: path
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+        - name: estabId
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Estabelecimento removido dos favoritos com sucesso.
+        '404':
+          description: Usuário ou estabelecimento não encontrado.
+        '500':
+          description: Erro ao remover favorito.
+
+  /ondetem/estabelecimentos:
+    post:
+      summary: Cria um novo estabelecimento
+      tags:
+        - Estabelecimentos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                cidade:
+                  type: string
+                bairro:
+                  type: string
+                rua:
+                  type: string
+                numero:
+                  type: string
+                descricao:
+                  type: string
+                imagens:
+                  type: array
+                  items:
+                    type: string
+                tagP:
+                  type: string
+      responses:
+        '201':
+          description: Estabelecimento criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  cidade:
+                    type: string
+                  bairro:
+                    type: string
+                  rua:
+                    type: string
+                  numero:
+                    type: string
+                  descricao:
+                    type: string
+                  imagens:
+                    type: array
+                    items:
+                      type: string
+                  tagP:
+                    type: string
+        '500':
+          description: Erro ao criar estabelecimento.
+
+  /ondetem/estabelecimentos/{id}:
+    get:
+      summary: Obtém um estabelecimento por ID
+      tags:
+        - Estabelecimentos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Estabelecimento encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  cidade:
+                    type: string
+                  bairro:
+                    type: string
+                  rua:
+                    type: string
+                  numero:
+                    type: string
+                  descricao:
+                    type: string
+                  imagens:
+                    type: array
+                    items:
+                      type: string
+                  tagP:
+                    type: string
+        '404':
+          description: Estabelecimento não encontrado.
+        '500':
+          description: Erro ao obter estabelecimento.
+
+    patch:
+      summary: Atualiza um estabelecimento
+      tags:
+        - Estabelecimentos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                cidade:
+                  type: string
+                bairro:
+                  type: string
+                rua:
+                  type: string
+                numero:
+                  type: string
+                descricao:
+                  type: string
+                imagens:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Estabelecimento atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  cidade:
+                    type: string
+                  bairro:
+                    type: string
+                  rua:
+                    type: string
+                  numero:
+                    type: string
+                  descricao:
+                    type: string
+                  imagens:
+                    type: array
+                    items:
+                      type: string
+                  tagP:
+                    type: string
+        '404':
+          description: Estabelecimento não encontrado.
+        '500':
+          description: Erro ao atualizar estabelecimento.
+
+    delete:
+      summary: Deleta um estabelecimento
+      tags:
+        - Estabelecimentos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Estabelecimento deletado com sucesso.
+        '404':
+          description: Estabelecimento não encontrado.
+        '500':
+          description: Erro ao deletar estabelecimento.
+
+  /ondetem/estabelecimentos/{estabId}/tags/{tagS}:
+    post:
+      summary: Associa uma tag secundária a um estabelecimento
+      tags:
+        - Estabelecimentos
+      parameters:
+        - name: estabId
+          in: path
+          required: true
+          description: ID do estabelecimento
+          schema:
+            type: integer
+        - name: tagS
+          in: path
+          required: true
+          description: Tag secundária a ser associada
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Tag associada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estabId:
+                    type: integer
+                  tagS:
+                    type: string
+        '404':
+          description: Estabelecimento não encontrado.
+        '500':
+          description: Erro ao associar tag.
+
+    delete:
+      summary: Remove a associação de uma tag secundária de um estabelecimento
+      tags:
+        - Estabelecimentos
+      parameters:
+        - name: estabId
+          in: path
+          required: true
+          description: ID do estabelecimento
+
+  /ondetem/tags_primarias:
+    post:
+      summary: Cria uma nova Tag Primária
+      tags:
+        - Tags Primárias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nomeTag:
+                  type: string
+      responses:
+        '201':
+          description: Tag Primária criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nomeTag:
+                    type: string
+        '500':
+          description: Erro ao criar Tag Primária.
+
+    get:
+      summary: Obtém todas as Tags Primárias
+      tags:
+        - Tags Primárias
+      responses:
+        '200':
+          description: Lista de Tags Primárias.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nomeTag:
+                      type: string
+        '500':
+          description: Erro ao obter Tags Primárias.
+
+  /ondetem/tags_primarias/{nomeTag}:
+    get:
+      summary: Obtém uma Tag Primária por nome
+      tags:
+        - Tags Primárias
+      parameters:
+        - name: nomeTag
+          in: path
+          required: true
+          description: Nome da Tag Primária
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tag Primária encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nomeTag:
+                    type: string
+        '404':
+          description: Tag Primária não encontrada.
+        '500':
+          description: Erro ao obter Tag Primária.
+
+    delete:
+      summary: Deleta uma Tag Primária
+      tags:
+        - Tags Primárias
+      parameters:
+        - name: nomeTag
+          in: path
+          required: true
+          description: Nome da Tag Primária
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tag Primária deletada com sucesso.
+        '404':
+          description: Tag Primária não encontrada.
+        '500':
+          description: Erro ao deletar Tag Primária.
+
+  /ondetem/tags_secundarias:
+    post:
+      summary: Cria uma nova Tag Secundária
+      tags:
+        - Tags Secundárias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nomeTag:
+                  type: string
+                tagP:
+                  type: string
+      responses:
+        '201':
+          description: Tag Secundária criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nomeTag:
+                    type: string
+        '500':
+          description: Erro ao criar Tag Secundária.
+
+    get:
+      summary: Obtém Tags Secundárias por Tag Primária
+      tags:
+        - Tags Secundárias
+      parameters:
+        - name: tagP
+          in: query
+          required: true
+          description: Nome da Tag Primária
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de Tags Secundárias.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nomeTag:
+                      type: string
+        '400':
+          description: Parâmetro 'tagP' inválido.
+        '500':
+          description: Erro ao obter Tags Secundárias.
+
+  /ondetem/tags_secundarias/{nomeTag}:
+    get:
+      summary: Obtém uma Tag Secundária por nome
+      tags:
+        - Tags Secundárias
+      parameters:
+        - name: nomeTag
+          in: path
+          required: true
+          description: Nome da Tag Secundária
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tag Secundária encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nomeTag:
+                    type: string
+        '404':
+          description: Tag Secundária não encontrada.
+        '500':
+          description: Erro ao obter Tag Secundária.
+
+    delete:
+      summary: Deleta uma Tag Secundária
+      tags:
+        - Tags Secundárias
+      parameters:
+        - name: nomeTag
+          in: path
+          required: true
+          description: Nome da Tag Secundária
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tag Secundária deletada com sucesso.
+        '404':
+          description: Tag Secundária não encontrada.
+        '500':
+          description: Erro ao deletar Tag Secundária.

@@ -14,10 +14,6 @@ class UsuarioService {
             include: {estabSalvos: {include: {estabelecimento: true}}}});
     }
 
-    async updateSenha (id: number, data: {senha: string}){
-        return prisma.usuario.update({where: {id}, data});
-    }
-
     async delete (id: number) {
         await prisma.usuario.delete({where: {id}});
     }

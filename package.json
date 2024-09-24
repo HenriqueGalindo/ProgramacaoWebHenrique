@@ -1,11 +1,12 @@
 {
   "name": "programacaowebhenrique",
   "version": "1.0.0",
-  "description": "O projeto seria um site onde uma série de estabelecimentos de prestação de serviços seriam divididos em tags, como Restaurante, Academia, Loja de roupas, Lavanderia, Shopping, etc, e por tags secundárias e terciárias (no caso de restaurantes, o tipo de comida que servem, se possuem opções veganas ou para alergias) as quais os usuários podem selecionar e receber as informações de estabelecimentos que possuam essas tags na cidade onde moram.",
+  "description": "O projeto seria uma API onde uma série de estabelecimentos de prestação de serviços seriam divididos em tags, como Restaurante, Academia, Loja de roupas, Lavanderia, Shopping, etc, e por tags secundárias e terciárias (no caso de restaurantes, o tipo de comida que servem, se possuem opções veganas ou para alergias) as quais os usuários podem selecionar e receber as informações de estabelecimentos que possuam essas tags na cidade onde moram.",
   "main": "index.js",
   "scripts": {
+    "test": "mocha --require ts-node/register test/*.test.mjs",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "dev": "ts-node src/server.ts"
   },
   "keywords": [],
@@ -13,18 +14,30 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.19.1",
-    "express": "^4.19.2"
+    "axios": "^1.7.7",
+    "chai": "^5.1.1",
+    "chai-http": "^5.0.0",
+    "express": "^4.21.0",
+    "mocha": "^10.7.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.19",
     "@types/express": "^4.17.21",
+    "@types/mocha": "^10.0.8",
     "@types/node": "^22.2.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "^0.2.34",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "gulp": "^5.0.0",
-    "gulp-nodemon": "^2.5.0",
+    "gulp-nodemon": "^2.2.1",
     "gulp-tslint": "^8.1.4",
     "gulp-typescript": "^6.0.0-alpha.1",
     "prettier": "^3.3.3",
