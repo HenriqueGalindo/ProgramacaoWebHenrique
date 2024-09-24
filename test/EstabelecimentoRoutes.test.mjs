@@ -10,7 +10,6 @@ describe('Teste para as rotas de Estabelecimento', () => {
     let tagPrimaria;
 
     beforeEach(async function () {
-        // Criando uma tag primária antes dos testes de estabelecimento
         const createTagPrimaria = await axios.post(`${BASE_URL}/tags_primarias`, {
             nomeTag: 'Restaurante'
         });
@@ -90,6 +89,7 @@ describe('Teste para as rotas de Estabelecimento', () => {
         });
         expect(res.status).to.equal(200);
         expect(res.data).to.have.property('nome', 'Estabelecimento Atualizado');
+        expect(res.data).to.have.property('cidade', 'Nova Cidade');
     });
 
     it('Deve retornar erro ao atualizar um estabelecimento não encontrado', async () => {
