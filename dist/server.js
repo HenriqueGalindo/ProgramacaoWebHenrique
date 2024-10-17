@@ -7,6 +7,9 @@ const express_1 = __importDefault(require("express"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
 const UsuarioController_1 = __importDefault(require("./Controllers/UsuarioController"));
+const EstabelecimentoController_1 = __importDefault(require("./Controllers/EstabelecimentoController"));
+const TagPrimariaController_1 = __importDefault(require("./Controllers/TagPrimariaController"));
+const TagSecundariaController_1 = __importDefault(require("./Controllers/TagSecundariaController"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(express_1.default.json());
@@ -15,6 +18,9 @@ const swaggerDocs = yamljs_1.default.load('./swagger.yaml');
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocs));
 // Rotas da aplicação
 app.use('/ondetem', UsuarioController_1.default);
+app.use('/ondetem', EstabelecimentoController_1.default);
+app.use('/ondetem', TagPrimariaController_1.default);
+app.use('/ondetem', TagSecundariaController_1.default);
 // Inicializar o servidor
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);

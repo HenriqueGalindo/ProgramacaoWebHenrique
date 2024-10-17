@@ -14,11 +14,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const UsuarioService_1 = __importDefault(require("../Application/UsuarioService"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const router = express_1.default.Router();
+//Faz login do usuário
+router.post('/usuarios/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, senha } = req.body;
+    if (!username || !senha) {
+        res.status(400).json({ error: "Email e senha são obrigatórios." });
+    }
+    try {
+        const token = yield UsuarioService_1.default.login(username, senha);
+        res.status(200).json({ token });
+    }
+    catch (error) {
+        console.error("Erro ao realizar login:", error);
+        res.status(500).json({ error: "Erro ao realizar login." });
+    }
+}));
 // Criar um novo usuário
 router.post('/usuarios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, senha } = req.body;
     try {
-        const usuario = yield UsuarioService_1.default.create(req.body);
+        const hashSenha = yield bcrypt_1.default.hash(senha, 10);
+        const usuario = yield UsuarioService_1.default.create({ username, senha: hashSenha });
         res.status(201).json(usuario);
     }
     catch (error) {
@@ -39,6 +57,22 @@ router.get('/usuarios/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
     catch (error) {
         console.error("Erro ao obter usuário:", error);
         res.status(500).json({ error: "Erro ao obter usuário." });
+    }
+}));
+// Atualizar a senha de um usuário
+router.patch('/usuarios/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { senha } = req.body;
+    try {
+        const usuario = yield UsuarioService_1.default.updateSenha(Number(id), { senha });
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuário não encontrado." });
+        }
+        res.status(200).json(usuario);
+    }
+    catch (error) {
+        console.error("Erro ao atualizar senha:", error);
+        res.status(500).json({ error: "Erro ao atualizar senha." });
     }
 }));
 // Deletar um usuário

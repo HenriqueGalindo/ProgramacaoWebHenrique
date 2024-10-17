@@ -14,8 +14,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const UsuarioEstabSalvosService_1 = __importDefault(require("./UsuarioEstabSalvosService"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const prisma = new client_1.PrismaClient;
+const jwtSecretKey = "Chave secreta";
 class UsuarioService {
+    login(username, senha) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const usuario = yield prisma.usuario.findUnique({ where: { username } });
+            if (!usuario) {
+                throw new Error('Usuário não encontrado!');
+            }
+            const senhaCorreta = yield bcrypt_1.default.compare(senha, usuario.senha);
+            if (!senhaCorreta) {
+                throw new Error('Senha inválida');
+            }
+            return jsonwebtoken_1.default.sign({ id: usuario.id }, jwtSecretKey, { expiresIn: '1h' });
+        });
+    }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return prisma.usuario.create({ data });
@@ -25,6 +41,11 @@ class UsuarioService {
         return __awaiter(this, void 0, void 0, function* () {
             return prisma.usuario.findUnique({ where: { id },
                 include: { estabSalvos: { include: { estabelecimento: true } } } });
+        });
+    }
+    updateSenha(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return prisma.usuario.update({ where: { id }, data });
         });
     }
     delete(id) {

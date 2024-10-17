@@ -5,9 +5,8 @@ const router = express.Router();
 
 // Criar uma nova Tag Primária
 router.post('/tags_primarias', async (req: Request, res: Response) => {
-    const { nomeTag } = req.body;
     try {
-        const tagPrimaria = await TagPrimariaService.create(nomeTag);
+        const tagPrimaria = await TagPrimariaService.create(req.body);
         res.status(201).json(tagPrimaria);
     } catch (error) {
         console.error("Erro ao criar Tag Primária:", error);

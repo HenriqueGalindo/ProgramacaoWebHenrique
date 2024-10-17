@@ -17,9 +17,8 @@ const TagPrimariaService_1 = __importDefault(require("../Application/TagPrimaria
 const router = express_1.default.Router();
 // Criar uma nova Tag Primária
 router.post('/tags_primarias', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nomeTag } = req.body;
     try {
-        const tagPrimaria = yield TagPrimariaService_1.default.create(nomeTag);
+        const tagPrimaria = yield TagPrimariaService_1.default.create(req.body);
         res.status(201).json(tagPrimaria);
     }
     catch (error) {

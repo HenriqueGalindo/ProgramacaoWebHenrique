@@ -84,8 +84,8 @@ router.delete('/estabelecimentos/:estabId/tags/:tagS', async (req: Request, res:
 });
 
 // Buscar estabelecimentos por cidade e tags secundárias
-router.get('/estabelecimentos/busca', async (req: Request, res: Response) => {
-    const { cidade, tagsSecundarias } = req.query;
+router.post('/estabelecimentos/busca', async (req: Request, res: Response) => {
+    const { cidade, tagsSecundarias } = req.body;
     if (!cidade || !Array.isArray(tagsSecundarias)) {
         return res.status(400).json({ error: "Parâmetros de busca inválidos." });
     }
